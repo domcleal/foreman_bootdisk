@@ -2,9 +2,11 @@ require 'uri'
 
 module Bootdisk
   class DisksController < ::ApplicationController
+    include Bootdisk::Renderer
+
     def generic_iso
       begin
-        tmpl = Bootdisk::Renderer.new.generic_template_render
+        tmpl = generic_template_render
       rescue => e
         error _('Failed to render boot disk template: %s') % e
         redirect_to :back
