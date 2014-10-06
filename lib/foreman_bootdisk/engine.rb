@@ -51,6 +51,7 @@ module ForemanBootdisk
     config.to_prepare do
       begin
         Host::Managed.send(:include, ForemanBootdisk::HostExt)
+        Host::Managed.send(:include, ForemanBootdisk::Orchestration::Compute) if SETTINGS[:unattended]
         HostsHelper.send(:include, ForemanBootdisk::HostsHelperExt)
         UnattendedController.send(:include, ForemanBootdisk::UnattendedControllerExt)
       rescue => e
