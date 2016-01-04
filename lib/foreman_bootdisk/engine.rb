@@ -19,7 +19,9 @@ module ForemanBootdisk
     end
 
     initializer "foreman_bootdisk.load_app_instance_data" do |app|
-      app.config.paths['db/migrate'] += ForemanBootdisk::Engine.paths['db/migrate'].existent
+      ForemanBootdisk::Engine.paths['db/migrate'].existent.each do |path|
+        app.config.paths['db/migrate'] << path
+      end
     end
 
     initializer "foreman_bootdisk.apipie" do
@@ -39,6 +41,7 @@ module ForemanBootdisk
 
         allowed_template_helpers :bootdisk_chain_url, :bootdisk_raise
         apipie_documented_controllers ["#{ForemanBootdisk::Engine.root}/app/controllers/foreman_bootdisk/api/v2/*.rb"]
+        #provision_method :awesome, N_('My awesome method')
       end
     end
 
